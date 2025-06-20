@@ -46,71 +46,9 @@
             filePath = "ABZTestTask/Endpoint/SignInEndpoint.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "signIn(name:email:phone:positionID:photoData:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D01F8805-2FE9-4A90-9948-A0356708736A - 1fd09919178afa68"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for ABZTestTask.SignInEndpointType.signIn(name: Swift.String, email: Swift.String, phone: Swift.String, positionID: Swift.Int, photoData: Foundation.Data) async throws -&gt; Swift.Optional&lt;Swift.String&gt;"
-                  moduleName = "ABZTestTask.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/denissernuk/Work/TestTask/ABZTestTask/ABZTestTask/Endpoint/SignInEndpoint.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "91"
-                  endingLineNumber = "91">
-               </Location>
-               <Location
-                  uuid = "D01F8805-2FE9-4A90-9948-A0356708736A - 1fd09919178afa68"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for ABZTestTask.SignInEndpointType.signIn(name: Swift.String, email: Swift.String, phone: Swift.String, positionID: Swift.Int, photoData: Foundation.Data) async throws -&gt; Swift.Optional&lt;Swift.String&gt;"
-                  moduleName = "ABZTestTask.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/denissernuk/Work/TestTask/ABZTestTask/ABZTestTask/Endpoint/SignInEndpoint.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "91"
-                  endingLineNumber = "91">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7B2A37C0-1AA7-4C4E-A2E7-3640B2CCB554"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ABZTestTask/Endpoint/SignInEndpoint.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "signIn(name:email:phone:positionID:photoData:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BD95B64C-3B3F-4316-9616-869ACB628452"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ABZTestTask/Endpoint/LoadUsersEndpoint.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "fetchUsers(page:count:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

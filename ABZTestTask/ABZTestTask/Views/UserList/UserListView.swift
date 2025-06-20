@@ -26,7 +26,7 @@ struct UserListView<Model>: View where Model: UserListViewModel  {
                                          phoneInfo: $0.phone,
                                          imagePath: $0.photoPath)
                         }
-                        if !viewModel.isLoading {
+                        if !viewModel.isLoading && !viewModel.isFinished  {
                             ProgressViewCell().onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                                     Task {

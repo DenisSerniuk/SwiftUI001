@@ -7,40 +7,71 @@
 
 import Foundation
 
-
 protocol UserListViewModel: ObservableObject, AnyObject {
     var userList: [UserModel]? { get }
     var isLoading: Bool { get }
+    var isFinished: Bool { get }
+
     func fetchUsers() async
     func refresh() async
 }
 
+
+
 class UserListViewModelType: UserListViewModel {
     
-    @Published var userList: [UserModel]? // = UserModel.faceModel()
+    struct UserPageModel {
+        var currentPage: Int = 1
+        var count: Int = 10
+        var totalUsers: Int?
+        var totalPages: Int?
+        var total: Int?
+        
+        mutating func reset() {
+            self.currentPage = 1
+            self.totalUsers = nil
+            self.totalPages = nil
+            self.total = nil
+        }
+    }
+    
+    @Published var userList: [UserModel]?
     @Published var isLoading: Bool = false
+    @Published var isFinished: Bool = false
     
     let endpoint: LoadUsersEndpoint = LoadUsersEndpointType()
     
-    
-    private var currentPage: Int = 1
-    private let count: Int = 10
+    private var pageModel: UserPageModel = UserPageModel()
     
     func loadUsers() {
         self.userList = UserModel.faceModel()
     }
     
+    private func updayeIsFinished() {
+        if let totalPages = pageModel.totalPages,
+           let totalUsers = pageModel.totalUsers,
+            totalPages > pageModel.currentPage ||
+           totalUsers > (userList?.count ?? 0) {
+            isFinished = false
+        } else {
+            isFinished = true
+        }
+    }
+    
+    // MARK: - API
+    @MainActor
     func fetchUsers() async {
-        let result = await endpoint.fetchUsers(page: currentPage, count: count)
-        DispatchQueue.main.async {
+        do {
+            let result = try await endpoint.fetchUsers(page: pageModel.currentPage, count: pageModel.count)
             self.isLoading = false
-            switch result {
-            case .success(let list):
-                self.currentPage += 1
-                self.userList?.append(contentsOf: list)
-            case .failure(let error):
-                print("error: \(error)")
-            }
+            self.pageModel.currentPage += 1
+            self.userList?.append(contentsOf: result.users)
+            pageModel.totalPages = result.totalPages
+            pageModel.totalUsers = result.totalUsers
+            updayeIsFinished()
+        } catch let error {
+            self.isLoading = false
+            print("error: \(error)")
         }
     }
     
@@ -51,7 +82,7 @@ class UserListViewModelType: UserListViewModel {
             userList = [UserModel]()
         }
         userList?.removeAll()
-        currentPage = 1
+        pageModel.reset()
         await fetchUsers()
     }
 }

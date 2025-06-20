@@ -19,25 +19,19 @@ struct SignInView<Model>: View where Model: SignInViewModel {
         NavigationStack {
             ScrollView {
                 VStack(alignment:.leading, spacing: 24) {
-                    VStack(spacing: 12) {
-                        ForEach($viewModel.fieldList, id: \.self) {
-                            SignInFieldView(text: $0.title,
-                                            placeholder: $0.placeholder.wrappedValue,
-                                            infoText: $0.info,
-                                            state: $0.state)
-                        }
-//                        SignInFieldView(text: $viewModel.name.title,
-//                                        placeholder: viewModel.name.placeholder,
-//                                        infoText: $viewModel.name.info,
-//                                        state: $viewModel.name.state)
-//                        SignInFieldView(text: $viewModel.email.title,
-//                                        placeholder: viewModel.email.placeholder,
-//                                        infoText: $viewModel.email.info,
-//                                        state: $viewModel.email.state)
-//                        SignInFieldView(text: $viewModel.phone.title,
-//                                        placeholder: viewModel.phone.placeholder,
-//                                        infoText: $viewModel.phone.info,
-//                                        state: $viewModel.phone.state)
+                    VStack(spacing: 12) { // Good to change for viewModel.list .....
+                        SignInFieldView(text: $viewModel.name.title,
+                                        placeholder: viewModel.name.placeholder,
+                                        infoText: $viewModel.name.info,
+                                        state: $viewModel.name.state)
+                        SignInFieldView(text: $viewModel.email.title,
+                                        placeholder: viewModel.email.placeholder,
+                                        infoText: $viewModel.email.info,
+                                        state: $viewModel.email.state)
+                        SignInFieldView(text: $viewModel.phone.title,
+                                        placeholder: viewModel.phone.placeholder,
+                                        infoText: $viewModel.phone.info,
+                                        state: $viewModel.phone.state)
                     }
 
                     RadioListView(title: "Select your position",

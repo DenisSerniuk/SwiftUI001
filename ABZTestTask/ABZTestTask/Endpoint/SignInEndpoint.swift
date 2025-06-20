@@ -35,11 +35,7 @@ class SignInEndpointType: SignInEndpoint {
     }
     
     let session = URLSession.shared
-    private let jsonDecoder: JSONDecoder = {
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        return jsonDecoder
-    }()
+    private let decode = AppResponseDecoder()
     
     enum Enpoint {
         static var signIn: URL {
@@ -93,27 +89,19 @@ class SignInEndpointType: SignInEndpoint {
             }
             
             if code == 201 {
-                let model:SignInSuccessAPIModel = try parceJson(data: data, model: SignInSuccessAPIModel.self)
+                let model:SignInSuccessAPIModel = try decode.parceJson(data: data, model: SignInSuccessAPIModel.self)
                 return model.message
             } else {
-                let model:SignInFailAPIModel = try parceJson(data: data, model: SignInFailAPIModel.self)
+                let model:SignInFailAPIModel = try decode.parceJson(data: data, model: SignInFailAPIModel.self)
                 throw(APIError.errorString(description: model.message))
             }
         } catch {
             throw(APIError.sending)
         }
     }
-        
-    func parceJson<T: Codable>(data: Data, model: T.Type) throws -> T {
-        do {
-            let model = try jsonDecoder.decode(T.self, from: data)
-            return model
-        } catch let error {
-            throw(APIError.parsing(description: error))
-        }
-    }
-    
+            
     // MARK: - Multipart
+    // good to marge in on func func
     private func multipartTextFormData(boundary: String, inputList: [MultipartData]) -> Data? {
         var body = ""
         for data in inputList {

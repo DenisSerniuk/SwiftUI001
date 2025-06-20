@@ -61,6 +61,10 @@ class SignInViewModelType: SignInViewModel {
         var state: FieldState = .normal
     }
     
+    enum Constants {
+        static let phoneNumberInfo = "+38 (XXX) XXX - XX - XX"
+    }
+    
     // MARK: - Private
     private let validator = AppValidator()
     private let sizeManager = ImageSizeManager()
@@ -69,7 +73,7 @@ class SignInViewModelType: SignInViewModel {
     @Published var name: SignInText = SignInText(placeholder: "Your name")
     @Published var email: SignInText = SignInText(placeholder: "Email")
     @Published var phone: SignInText = SignInText(placeholder: "Phone",
-                                                  info: "+38 (XXX) XXX - XX - XX")
+                                                  info: Constants.phoneNumberInfo)
     
     @Published var fieldList: [SignInText] = {
         var list = [SignInText(placeholder: "Your name"), SignInText(placeholder: "Email")]
@@ -148,7 +152,7 @@ class SignInViewModelType: SignInViewModel {
     }
     
     private func validatePhone() -> ValidationResult {
-        var result = ValidationResult(type: .phone, info: "+38 (XXX) XXX - XX - XX")
+        var result = ValidationResult(type: .phone, info: Constants.phoneNumberInfo)
         if let error = validator.validate(text: phone.title, type: .phone) {
             result.state = .error
             switch error {
@@ -198,11 +202,11 @@ class SignInViewModelType: SignInViewModel {
                             self.signInResult.status = .error(description.localizedDescription)
                         case .sending:
                             self.signInResult.status = .error("Unrecognized error")
-                        case .error(networkError: let networkError):
+                        case .error(networkError: _):
                             self.signInResult.status = .error("Some network problem")
                         case .errorString(description: let descriptionStr):
                             self.signInResult.status = .error(descriptionStr)
-                        case .unexpected(code: let code):
+                        case .unexpected(code: _):
                             self.signInResult.status = .error("Unrecognized error")
                         }
                     }

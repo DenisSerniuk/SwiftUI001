@@ -13,7 +13,6 @@ fileprivate struct APIPositionModel: Codable {
 }
 
 protocol LoadPositionEndpoint {
-    func getList(completion: @escaping (Result<[PositionModel], APIError>) -> Void)
     func fetchPositionList() async -> Result<[PositionModel], APIError>
 }
 
