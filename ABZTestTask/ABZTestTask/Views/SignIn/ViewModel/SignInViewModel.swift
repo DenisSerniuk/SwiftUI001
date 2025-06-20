@@ -63,6 +63,7 @@ class SignInViewModelType: SignInViewModel {
     
     enum Constants {
         static let phoneNumberInfo = "+38 (XXX) XXX - XX - XX"
+        static let avatarImageSize = CGSize(width: 75, height: 75)
     }
     
     // MARK: - Private
@@ -175,14 +176,29 @@ class SignInViewModelType: SignInViewModel {
         return ValidationResult(type: .image, info: "", state: .normal)
     }
     
+    private func compessImageIfNeed() -> Data? {
+        if let avatarImg = avatar.image,
+           avatarImg.size.width > Constants.avatarImageSize.width ||
+            avatarImg.size.height > Constants.avatarImageSize.height {
+            let image = sizeManager.resizeImage(image: avatarImg, to: .small(size: Constants.avatarImageSize))
+            let cropedImage = sizeManager.crop(image: image, to: CGRect(origin: .zero, size: Constants.avatarImageSize))
+            
+            if let cropedImage = cropedImage, sizeManager.isValidImageSize(cropedImage, targetSize: 5) {
+                return cropedImage.jpegData(compressionQuality: 1.0)
+            } else if let cropedImage = cropedImage {
+                sizeManager.compressImage(image: cropedImage, to: .small(size: .zero))
+            }
+        }
+        return nil
+    }
+    
     // API Call
     @MainActor
     func signIn() async {
         if validate().first(where: { $0.state == .error }) != nil {
             return
-        } else if let avatarImage = avatar.image,
-                    let imageData = avatarImage.jpegData(compressionQuality: 1.0),
-                    let positionId = selectedPosition?.id {
+        } else if let imageData = compessImageIfNeed(),
+                  let positionId = selectedPosition?.id {
 
             do {
                 if try await TokenEndpointType().loadToken() == true {
