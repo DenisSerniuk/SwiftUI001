@@ -72,8 +72,8 @@ struct SignInView<Model>: View where Model: SignInViewModel {
                     viewModel.signInResult.isPresented = false
                 }
             })
-            .scrollBounceBehavior(.basedOnSize)
             .padding(EdgeInsets(top: 32, leading: 16, bottom: 12, trailing: 16))
+            .scrollBounceBehavior(.basedOnSize)
             .navigationTitle("Working with POST request")
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(Color.primary, for: .automatic)

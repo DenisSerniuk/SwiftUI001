@@ -26,6 +26,6 @@ struct RadioButtonView: View {
 }
 
 #Preview {
-    @State var isSelected: Bool = false
+    @Previewable @State var isSelected: Bool = false
     RadioButtonView(title: "Text", isSelected: $isSelected)
 }

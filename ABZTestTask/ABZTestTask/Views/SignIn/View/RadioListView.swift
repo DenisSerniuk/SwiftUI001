@@ -43,7 +43,7 @@ struct RadioListView: View {
 }
 
 #Preview {
-    @State var selectedValue: PositionModel?
+    @Previewable @State var selectedValue: PositionModel?
     RadioListView(title: "Select your position",
                   list: [PositionModel(id: 1, name: "Layer"),
                          PositionModel(id: 2, name: "Backend developer")],

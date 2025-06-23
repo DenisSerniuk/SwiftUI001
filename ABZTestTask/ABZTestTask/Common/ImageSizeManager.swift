@@ -14,12 +14,11 @@ enum SizeConstants {
 }
 
 protocol ImageSizeManagerProtocol {
-    associatedtype ResizeType: RawRepresentable
     associatedtype DimentionSizeType: RawRepresentable
     associatedtype MemorySizeType: RawRepresentable
     func isValidImageSize(_ image: UIImage, targetSize: Float) -> Bool
     func resizeImage(image: UIImage, to size: DimentionSizeType) -> UIImage
-    func compressImage(image: UIImage, to size: ResizeType) -> Data?
+    func compressImage(image: UIImage, to size: MemorySizeType) -> Data?
 }
 
 struct ImageSizeManager {
