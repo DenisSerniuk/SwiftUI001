@@ -38,7 +38,7 @@ protocol LoadUsersEndpoint {
     func fetchUsers(page: Int, count: Int) async throws -> UserListModel
 }
 
-class LoadUsersEndpointType: LoadUsersEndpoint {
+final class LoadUsersEndpointType: LoadUsersEndpoint {
 
     enum Endpoint {
         static func users(page: Int, count: Int) -> URL {

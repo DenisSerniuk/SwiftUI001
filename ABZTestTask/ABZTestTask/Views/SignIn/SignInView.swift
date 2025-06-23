@@ -79,7 +79,9 @@ struct SignInView<Model>: View where Model: SignInViewModel {
             .toolbarBackground(Color.primary, for: .automatic)
             .toolbarBackgroundVisibility(.visible, for: .navigationBar)
             .onAppear {
-                viewModel.fetchPositions()
+                Task {
+                    await viewModel.fetchPositions()
+                }
             }
             .overlay {
                 if viewModel.isLoading {
@@ -114,5 +116,6 @@ struct SignInView<Model>: View where Model: SignInViewModel {
 }
 
 #Preview {
-    SignInView(viewModel: SignInViewModelType(signInEndpoint: SignInEndpointType()))
+    SignInView(viewModel: SignInViewModelType(signInEndpoint: SignInEndpointType(),
+                                              positionEndpoint: LoadPositionEndpointType()))
 }

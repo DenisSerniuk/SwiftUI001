@@ -14,9 +14,10 @@ fileprivate struct APIPositionModel: Codable {
 
 protocol LoadPositionEndpoint {
     func fetchPositionList() async -> Result<[PositionModel], APIError>
+    func getList(completion: @escaping (Result<[PositionModel], APIError>) -> Void)
 }
 
-class LoadPositionEndpointType: LoadPositionEndpoint {
+final class LoadPositionEndpointType: LoadPositionEndpoint {
     enum Enpoint {
         static var postion: URL {
             APIEnviropment.current.url().appending(path: "positions")
@@ -62,10 +63,8 @@ class LoadPositionEndpointType: LoadPositionEndpoint {
     private func dataToModel(data: Data) -> Result<[PositionModel], APIError> {
         do {
             let model = try JSONDecoder().decode(APIPositionModel.self, from: data)
-            print("stop")
             return .success(model.positions)
         } catch let error {
-            print("ooops")
             return .failure(.parsing(description: error))
         }
     }

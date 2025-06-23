@@ -13,7 +13,7 @@ struct PositionModel: Codable, Hashable {
 }
 
 extension PositionModel {
-    static func faceList() -> [PositionModel] {
+    static func fakeList() -> [PositionModel] {
         return [PositionModel(id: 1, name: "Lawyer"),
                 PositionModel(id: 2, name: "Content manager"),
                 PositionModel(id: 3, name: "Security"),

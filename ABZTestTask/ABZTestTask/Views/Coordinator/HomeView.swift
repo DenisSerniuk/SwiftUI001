@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = SignInViewModelType(signInEndpoint: SignInEndpointType())
+    @StateObject private var viewModel = SignInViewModelType(signInEndpoint: SignInEndpointType(), positionEndpoint: LoadPositionEndpointType())
 
     var body: some View {
         // little bin not by design, but for test ok

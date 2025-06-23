@@ -15,20 +15,27 @@ enum SizeConstants {
 
 protocol ImageSizeManagerProtocol {
     associatedtype ResizeType: RawRepresentable
+    associatedtype DimentionSizeType: RawRepresentable
+    associatedtype MemorySizeType: RawRepresentable
     func isValidImageSize(_ image: UIImage, targetSize: Float) -> Bool
-    func resizeImage(image: UIImage, to size: ResizeType) -> UIImage
-    func compressImage(image: UIImage, to size: ResizeType) -> UIImage?
+    func resizeImage(image: UIImage, to size: DimentionSizeType) -> UIImage
+    func compressImage(image: UIImage, to size: ResizeType) -> Data?
 }
 
 struct ImageSizeManager {
-    enum ImageSize {
+    enum DomentionSize {
         case small(size: CGSize), original
     }
     
-    typealias ResizeType = ImageSize
+    enum MemorySize {
+        case small(size: Float), original
+    }
+    
+    typealias DimentionSizeType = DomentionSize
+    typealias MemorySizeType = MemorySize
     private let additionParamsSize: Float = 0.05
     
-    func resizeImage(image: UIImage, to size: ResizeType) -> UIImage {
+    func resizeImage(image: UIImage, to size: DimentionSizeType) -> UIImage {
         switch size {
         case .small(let size):
             return resizeImage(targetSize: size, image: image)
@@ -58,24 +65,21 @@ struct ImageSizeManager {
     }
     
     
-    func compressImage(image: UIImage, to size: ResizeType) -> UIImage? {
+    func compressImage(image: UIImage, to size: MemorySizeType) -> Data? {
         var data: Data?
         switch size {
-        case .small:
-            data = compressImageTo1Mb(image)
+        case .small(let val):
+            data = compress(image, to: val)
         case .original:
             data = image.jpegData(compressionQuality: 1.0)
         }
         
-        if let lData = data {
-            return UIImage(data: lData)
-        }
-        return nil
+        return data
     }
     
-    private func compressImageTo1Mb(_ image: UIImage) -> Data? {
+    private func compress(_ image: UIImage, to size: Float) -> Data? {
         if let data = image.jpegData(compressionQuality: 1.0) {
-            let minSize = SizeConstants.mb * 5
+            let minSize = SizeConstants.mb * size
             if Float(data.count) > minSize {
                 let compression = Float(minSize / Float(data.count)) - additionParamsSize
                 let compressedData = image.jpegData(compressionQuality: CGFloat(compression))

@@ -28,7 +28,7 @@ protocol SignInEndpoint {
     func signIn(name: String, email: String, phone: String, positionID: Int, photoData: Data) async throws -> String?
 }
 
-class SignInEndpointType: SignInEndpoint {
+final class SignInEndpointType: SignInEndpoint {
     struct MultipartDataType: MultipartData {
         let name: String
         let value: String

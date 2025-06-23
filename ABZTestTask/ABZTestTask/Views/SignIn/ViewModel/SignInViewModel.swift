@@ -47,7 +47,7 @@ protocol SignInViewModel: ObservableObject, AnyObject {
     var positions: [PositionModel] { set get }
     var selectedPosition: PositionModel? { set get }
     func signIn() async
-    func fetchPositions()
+    func fetchPositions() async
 }
 
 final class SignInViewModelType: SignInViewModel {
@@ -84,14 +84,15 @@ final class SignInViewModelType: SignInViewModel {
     @Published var selectedPosition: PositionModel?
     @Published var signInResult = SignInResult(isPresented: false)
     
-    
     var positions: [PositionModel] = [PositionModel]()
     
     let signInEndpoint: SignInEndpoint
+    let positionEndpoint: LoadPositionEndpoint
     let tokenEndpoint = TokenEndpointType()
     
-    init(signInEndpoint: SignInEndpoint) {
+    init(signInEndpoint: SignInEndpoint, positionEndpoint: LoadPositionEndpoint)  {
         self.signInEndpoint = signInEndpoint
+        self.positionEndpoint = positionEndpoint
     }
     
     // MARK: - Validation
@@ -185,7 +186,7 @@ final class SignInViewModelType: SignInViewModel {
             if let cropedImage = cropedImage, sizeManager.isValidImageSize(cropedImage, targetSize: 5) {
                 return cropedImage.jpegData(compressionQuality: 1.0)
             } else if let cropedImage = cropedImage {
-                sizeManager.compressImage(image: cropedImage, to: .small(size: .zero))
+                return sizeManager.compressImage(image: cropedImage, to: .small(size: 5))
             }
         }
         return nil
@@ -231,20 +232,18 @@ final class SignInViewModelType: SignInViewModel {
         }
     }
     
-    func fetchPositions() {
+    @MainActor
+    func fetchPositions() async {
         isLoading = true
-        LoadPositionEndpointType().getList { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                self.isLoading = false
-                switch result {
-                case .success(let list):
-                    self.positions = list
-                case .failure(let error):
-                    print("oops: \(error)")
-                }
-            }
+        
+        let result = await positionEndpoint.fetchPositionList()
+        switch result {
+        case .success(let list):
+            self.positions = list
+        case .failure(let error):
+            print("error: \(error)")
         }
+        self.isLoading = false
     }
     
 }
