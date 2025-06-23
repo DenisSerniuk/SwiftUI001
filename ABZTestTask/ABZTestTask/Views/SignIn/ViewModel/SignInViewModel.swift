@@ -50,7 +50,7 @@ protocol SignInViewModel: ObservableObject, AnyObject {
     func fetchPositions()
 }
 
-class SignInViewModelType: SignInViewModel {
+final class SignInViewModelType: SignInViewModel {
     
     struct ValidationResult {
         enum FieldType {
@@ -75,7 +75,6 @@ class SignInViewModelType: SignInViewModel {
     @Published var email: SignInText = SignInText(placeholder: "Email")
     @Published var phone: SignInText = SignInText(placeholder: "Phone",
                                                   info: Constants.phoneNumberInfo)
-    
     @Published var fieldList: [SignInText] = {
         var list = [SignInText(placeholder: "Your name"), SignInText(placeholder: "Email")]
         return list
@@ -87,7 +86,7 @@ class SignInViewModelType: SignInViewModel {
     
     
     var positions: [PositionModel] = [PositionModel]()
-
+    
     let signInEndpoint: SignInEndpoint
     let tokenEndpoint = TokenEndpointType()
     
@@ -199,14 +198,14 @@ class SignInViewModelType: SignInViewModel {
             return
         } else if let imageData = compessImageIfNeed(),
                   let positionId = selectedPosition?.id {
-
+            
             do {
                 if try await TokenEndpointType().loadToken() == true {
                     let result = try await signInEndpoint.signIn(name: name.title,
-                                                           email: email.title,
-                                                           phone: phone.title,
-                                                           positionID: positionId,
-                                                           photoData: imageData)
+                                                                 email: email.title,
+                                                                 phone: phone.title,
+                                                                 positionID: positionId,
+                                                                 photoData: imageData)
                     self.signInResult.status = .registared
                     self.signInResult.isPresented = true
                 }

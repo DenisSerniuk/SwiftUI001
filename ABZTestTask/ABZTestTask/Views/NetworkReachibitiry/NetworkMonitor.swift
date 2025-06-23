@@ -13,7 +13,7 @@ enum NetworkStatus: String {
     case disconnected
 }
 
-class NetworkMonitor: ObservableObject {
+final class NetworkMonitor: ObservableObject {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "Monitor")
     

@@ -28,7 +28,6 @@ struct UserCellView: View {
     let phoneInfo: String
     var imagePath: String? = nil
     
-    
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
             Group {

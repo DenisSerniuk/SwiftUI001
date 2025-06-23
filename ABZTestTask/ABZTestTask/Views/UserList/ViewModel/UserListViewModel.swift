@@ -16,9 +16,7 @@ protocol UserListViewModel: ObservableObject, AnyObject {
     func refresh() async
 }
 
-
-
-class UserListViewModelType: UserListViewModel {
+final class UserListViewModelType: UserListViewModel {
     
     struct UserPageModel {
         var currentPage: Int = 1
@@ -43,11 +41,7 @@ class UserListViewModelType: UserListViewModel {
     
     private var pageModel: UserPageModel = UserPageModel()
     
-    func loadUsers() {
-        self.userList = UserModel.faceModel()
-    }
-    
-    private func updayeIsFinished() {
+    private func updateIsFinished() {
         if let totalPages = pageModel.totalPages,
            let totalUsers = pageModel.totalUsers,
             totalPages > pageModel.currentPage ||
@@ -68,7 +62,7 @@ class UserListViewModelType: UserListViewModel {
             self.userList?.append(contentsOf: result.users)
             pageModel.totalPages = result.totalPages
             pageModel.totalUsers = result.totalUsers
-            updayeIsFinished()
+            updateIsFinished()
         } catch let error {
             self.isLoading = false
             print("error: \(error)")
