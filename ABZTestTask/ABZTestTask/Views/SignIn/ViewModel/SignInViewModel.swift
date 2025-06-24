@@ -17,7 +17,7 @@ struct SignInError {
     let type: SignInFieldType
 }
 
-struct SignInText: Identifiable, Hashable{
+struct SignInText: Identifiable, Hashable {
     let id = UUID().uuidString
     var title: String = ""
     var placeholder: String
@@ -96,13 +96,12 @@ final class SignInViewModelType: SignInViewModel {
     }
     
     // MARK: - Validation
-    @MainActor
     func validate() -> [ValidationResult] {
         
         var list = [ValidationResult]()
-        list.append(validateName())
-        list.append(validateEmail())
-        list.append(validatePhone())
+        list.append(validateName(name.title))
+        list.append(validateEmail(email.title))
+        list.append(validatePhone(phone.title))
         list.append(validateImage())
         
         for data in list {
@@ -125,19 +124,24 @@ final class SignInViewModelType: SignInViewModel {
         return list
     }
     
-    private func validateName() -> ValidationResult {
-        if let error = validator.validate(text: name.title, type: .text(minLen: 1)) {
-            name.state = .error
-            name.info = "Required field"
-            return ValidationResult(type: .name, info: "Required field", state: .error)
+    private func validateName(_ text: String) -> ValidationResult {
+        var result = ValidationResult(type: .name)
+        if let error = validator.validate(text: text, type: .text(minLen: 1)) {
+            result.state = .error
+            switch error {
+            case .empty, .notValid:
+                result.info = "Required field"
+            case .error(let description):
+                result.info = description
+            }
         }
         
-        return ValidationResult(type: .name)
+        return result
     }
     
-    private func validateEmail() -> ValidationResult {
+    private func validateEmail(_ text: String) -> ValidationResult {
         var result = ValidationResult(type: .email)
-        if let error = validator.validate(text: email.title, type: .email) {
+        if let error = validator.validate(text: text, type: .email) {
             result.state = .error
             switch error {
             case .empty:
@@ -147,14 +151,13 @@ final class SignInViewModelType: SignInViewModel {
             case let .error(description):
                 result.info = description
             }
-            return result
         }
         return result
     }
     
-    private func validatePhone() -> ValidationResult {
+    private func validatePhone(_ text: String) -> ValidationResult {
         var result = ValidationResult(type: .phone, info: Constants.phoneNumberInfo)
-        if let error = validator.validate(text: phone.title, type: .phone) {
+        if let error = validator.validate(text: text, type: .phone) {
             result.state = .error
             switch error {
             case .empty:
@@ -164,7 +167,6 @@ final class SignInViewModelType: SignInViewModel {
             case let .error(description):
                 result.info = description
             }
-            return result
         }
         return result
     }
@@ -244,6 +246,7 @@ final class SignInViewModelType: SignInViewModel {
             print("error: \(error)")
         }
         self.isLoading = false
+
     }
     
 }

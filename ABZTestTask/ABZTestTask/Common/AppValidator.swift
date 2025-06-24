@@ -13,7 +13,6 @@ enum ValidationError: Error {
     case error(description: String)
 }
 
-
 struct AppValidator {
     enum ValidationType {
         case text(minLen: Int), email, phone
@@ -53,7 +52,7 @@ struct AppValidator {
     
     private func validatePhone(text: String) -> ValidationError? {
         if text.isEmpty {
-            return .error(description: "is requered")
+            return .error(description: "Requered field")
         }
         let countryCode = String(text.prefix(4))
         if countryCode == "+380" {
