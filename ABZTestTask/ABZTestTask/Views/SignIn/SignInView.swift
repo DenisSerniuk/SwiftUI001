@@ -78,10 +78,8 @@ struct SignInView<Model>: View where Model: SignInViewModel {
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(Color.primary, for: .automatic)
             .toolbarBackgroundVisibility(.visible, for: .navigationBar)
-            .onAppear {
-                Task {
-                    await viewModel.fetchPositions()
-                }
+            .task {
+                await viewModel.fetchPositions()
             }
             .overlay {
                 if viewModel.isLoading {
