@@ -36,7 +36,7 @@ final class UserListViewModelType: UserListViewModel {
     @Published var userList: [UserModel]?
     @Published var isLoading: Bool = false
     @Published var isFinished: Bool = false
-    
+        
     let endpoint: LoadUsersEndpoint = LoadUsersEndpointType()
     
     private var pageModel: UserPageModel = UserPageModel()
@@ -68,6 +68,7 @@ final class UserListViewModelType: UserListViewModel {
             print("error: \(error)")
         }
     }
+    
     
     @MainActor
     func refresh() async {

@@ -68,8 +68,6 @@ struct SignInView<Model>: View where Model: SignInViewModel {
             .fullScreenCover(isPresented: $viewModel.signInResult.isPresented, content: {
                 RegistrationStatusView(status: viewModel.signInResult.status) {
                     viewModel.signInResult.isPresented = false
-                } closeAction: {
-                    viewModel.signInResult.isPresented = false
                 }
             })
             .padding(EdgeInsets(top: 32, leading: 16, bottom: 12, trailing: 16))

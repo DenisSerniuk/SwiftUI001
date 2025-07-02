@@ -42,14 +42,14 @@ enum UserStatus {
 struct RegistrationStatusView: View {
     let status: UserStatus
     var action: ()->()?
-    var closeAction: ()->()?
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         VStack(alignment: .center, spacing: 24) {
             HStack {
                 Spacer()
                 Button("", systemImage: "xmark") {
-                    closeAction()
+                    dismiss()
                 }.tint(.black)
                 
             }.padding(.trailing, 24)
@@ -67,5 +67,5 @@ struct RegistrationStatusView: View {
 }
 
 #Preview {
-    RegistrationStatusView(status: .registared, action: {}, closeAction: {})
+    RegistrationStatusView(status: .registared, action: {})
 }

@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct UserListView<Model>: View where Model: UserListViewModel  {
-    @State private var selectedUser: UserModel?
     @StateObject var viewModel: Model
-    @State private var isFinished: Bool = false
-    @State private var isLoading = false
-    @State private var isAnimation = true
         
     var body: some View {
         NavigationStack {
