@@ -41,7 +41,7 @@ protocol SignInViewModel: ObservableObject, AnyObject {
     var email: SignInText { set get }
     var phone: SignInText { set get }
     var avatar: SignInImage { set get }
-    var fieldList: [SignInText]  { set get }
+//    var fieldList: [SignInText]  { set get }
     var signInResult: SignInResult { set get }
     var isLoading: Bool { set get }
     var positions: [PositionModel] { set get }
@@ -51,7 +51,6 @@ protocol SignInViewModel: ObservableObject, AnyObject {
 }
 
 final class SignInViewModelType: SignInViewModel {
-    
     struct ValidationResult {
         enum FieldType {
             case name, email, phone, image
@@ -71,18 +70,15 @@ final class SignInViewModelType: SignInViewModel {
     private let sizeManager = ImageSizeManager()
     
     // MARK: - Public
-    @Published var name: SignInText = SignInText(placeholder: "Your name")
-    @Published var email: SignInText = SignInText(placeholder: "Email")
-    @Published var phone: SignInText = SignInText(placeholder: "Phone",
+    var name: SignInText = SignInText(placeholder: "Your name")
+    var email: SignInText = SignInText(placeholder: "Email")
+    var phone: SignInText = SignInText(placeholder: "Phone",
                                                   info: Constants.phoneNumberInfo)
-    @Published var fieldList: [SignInText] = {
-        var list = [SignInText(placeholder: "Your name"), SignInText(placeholder: "Email")]
-        return list
-    }()
-    @Published var avatar: SignInImage = SignInImage()
+    var avatar: SignInImage = SignInImage()
+    var signInResult = SignInResult(isPresented: false)
+    
     @Published var isLoading: Bool = false
     @Published var selectedPosition: PositionModel?
-    @Published var signInResult = SignInResult(isPresented: false)
     
     var positions: [PositionModel] = [PositionModel]()
     

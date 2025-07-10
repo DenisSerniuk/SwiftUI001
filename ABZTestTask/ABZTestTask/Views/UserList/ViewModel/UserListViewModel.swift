@@ -33,7 +33,7 @@ final class UserListViewModelType: UserListViewModel {
         }
     }
     
-    @Published var userList: [UserModel]?
+    var userList: [UserModel]?
     @Published var isLoading: Bool = false
     @Published var isFinished: Bool = false
         
@@ -65,7 +65,6 @@ final class UserListViewModelType: UserListViewModel {
             updateIsFinished()
         } catch let error {
             self.isLoading = false
-            print("error: \(error)")
         }
     }
     
