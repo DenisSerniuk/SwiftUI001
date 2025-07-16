@@ -32,10 +32,14 @@ struct UserCellView: View {
         HStack(alignment: .top, spacing: 0) {
             Group {
                 if let imagePath = imagePath {
-                    AsyncImage(url: URL(string: imagePath)) { image in
-                        customizedImage(image)
-                    } placeholder: {
-                        customizedImage(Image("NoInternet"))
+                    AsyncImage(url: URL(string: imagePath)) { phase in
+                        if let image = phase.image {
+                            customizedImage(image)
+                        } else if phase.error != nil {
+                            customizedImage(Image("NoInternet"))
+                        } else {
+                            ProgressView()
+                        }
                     }
                 } else {
                     customizedImage(Image("NoInternet"))
